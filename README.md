@@ -44,10 +44,10 @@ The extension is configured with an accompanying DLL file, which is loaded as an
 <configuration>
   <appSettings>
   
-    <!-- Define publications where publishing mirroring should be triggered -->
+    <!-- Define publications by title or TCM ID (comma-separated) where publishing mirroring should be triggered -->
     <add key="SourcePublications" value="tcm:0-7-1"/>
     
-    <!-- Define the publications which publishing  -->
+    <!-- Define the publications by title or TCM ID (comma-separated) which publishing  -->
     <add key="TargetPublications" value="400 Example Site"/>
 
     <!-- Enable logging of all publish transactions -->
