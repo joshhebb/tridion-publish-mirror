@@ -58,7 +58,7 @@ namespace Tridion.Events
         }
 
         /// <summary>
-        /// Returns the configuration value as a boolean (reading true / false)
+        /// Return the configuration value as a boolean (reading true / false)
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
@@ -69,7 +69,7 @@ namespace Tridion.Events
         }
 
         /// <summary>
-        /// Returns the configuration value corresponding to the given key (singl-value)
+        /// Return the configuration value corresponding to the given key (single-value)
         /// </summary>
         public static string GetAppSetting(string key)
         {
@@ -78,7 +78,7 @@ namespace Tridion.Events
         }
 
         /// <summary>
-        /// Returns configuration value which is comma-separated as a string array by the input key
+        /// Return   configuration value which is comma-separated as a string array by the input key.
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>

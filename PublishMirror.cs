@@ -47,14 +47,10 @@ namespace Tridion.Events
                 var publishUnpublishInstruction = TridionUtil.GetPublishOrUnpublishInstruction(args);
 
                 // Only run the action if the user selected to include child pubs, and the config is enabled
-                if (publishUnpublishInstruction.ResolveInstruction.IncludeChildPublications != true && Settings.OnlyMirrorIfPublishToChildrenSelected == true)
+                if (publishUnpublishInstruction.ResolveInstruction.IncludeChildPublications != true)
                 {
                     logger.Debug("Transaction didn't specify that we should only publish if child publications setting is selected. Exitting.");
                     return;
-                }
-                else
-                {
-                    logger.Debug("Publishing transaction didn't specify to publish to child publications or the setting onlyPublishIfChildSelection was set to false. Continuing.");
                 }
 
                 // Get the publications for which publishing should be mirrored
@@ -81,13 +77,35 @@ namespace Tridion.Events
 
                         if (args is PublishEventArgs)
                         {
+                            var publishInstruction = (PublishInstruction) publishUnpublishInstruction;
+                            
+                            if(Settings.FORCE_PUBLISH_CHILD_PUBS)
+                            {
+                                publishInstruction.ResolveInstruction.IncludeChildPublications = true;
+                            }
+                            if(Settings.FORCE_PUBLISH_MINOR_VERSION)
+                            {
+                                publishInstruction.ResolveInstruction.IncludeDynamicVersion = true;
+                            }
+                            if(Settings.FORCE_PUBLISH_WORKFLOW_VERSION)
+                            {
+                                publishInstruction.ResolveInstruction.IncludeWorkflow = true;
+                            }
+
                             logger.Info($"Publishing items '{publishedItemIds}' -- to publications {publicationTitles} -- to targets {targetTypes.Select(t => t.Title).PrintList()}.");
-                            PublishEngine.Publish(mirrorItems, (PublishInstruction) publishUnpublishInstruction, targetTypes);
+                            PublishEngine.Publish(mirrorItems, publishInstruction, targetTypes);
                         }
                         else if (args is UnPublishEventArgs)
                         {
+                            var unpublishInstruction = (UnPublishInstruction) publishUnpublishInstruction;
+
+                            if (Settings.FORCE_PUBLISH_CHILD_PUBS)
+                            {
+                                unpublishInstruction.ResolveInstruction.IncludeChildPublications = true;
+                            }
+
                             logger.Info($"Unpublishing items '{publishedItemIds}' -- to publications {publicationTitles} -- to targets {publishingTargetIds}.");
-                            PublishEngine.UnPublish(mirrorItems, (UnPublishInstruction) publishUnpublishInstruction, targetTypes);
+                            PublishEngine.UnPublish(mirrorItems, unpublishInstruction, targetTypes);
                         }
                     }
                 }
