@@ -5,9 +5,12 @@ SDL Web 8.5 Event-System extension to mirror publishing in a set of source publi
 _The extension has been tested in SDL Web 8.5 with both Topology Manager publishing, and legacy publishing using publishing targets._
 
 ### Use cases
-The main use case I had in mind when building the extension was for implementations which have a web publication level between the content and web publication levels intended for creating content manager pages and structure groups which are shared across a set of child websites. Often times, these publications will have publishing enabled, even though there is typically no representative website for this publication, in order to allow the users to select the advanced setting "Also publish/unpublish to child publications" which allows them to publish items in a single publish to all web publications at once.
+The main use case I had in mind when building the extension was for implementations which have a (web) publication between the content and website publications intended for creating content manager pages and structure groups which are shared across a set of child websites. Often times, these publications will have publishing enabled, even though there is typically no representative website for this publication, in order to allow the users to select the advanced setting "Also publish/unpublish to child publications" which allows them to publish items in a single publish to all web publications at once.
+
+While this was the main use case, there are probably a ton of different scenarios where you would want to mirror all publishing between two publications.
 
 <img src="https://user-images.githubusercontent.com/3137946/56857740-be2e6800-6960-11e9-9622-6419ee31d43c.png" width="400" />
+_Example blueprint showing the most common use case I had in mind for the extension (described in more detail below)._
 
 * In the sample blueprint, items in XPM may be edited directly in the English publication (500 EN).
 * It may be the case that items being edited in XPM are inherited from the 400 Web level, and should be published to all language sites when edited in XPM.
