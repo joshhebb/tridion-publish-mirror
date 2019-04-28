@@ -2,13 +2,12 @@
 
 SDL Web 8.5 Event-System extension to mirror publishing in a set of source publications which are defined in a configuration, to a set of target publications. This is particularly useful in combination with Experience Manager, where publishing initiated in XPM can be mirrored to other language websites for consistent user-experiences. 
 
-The extension has been tested in SDL Web 8.5 with both Topology Manager publishing, and legacy publishing using publishing targets. 
+_The extension has been tested in SDL Web 8.5 with both Topology Manager publishing, and legacy publishing using publishing targets._
 
 ### Use cases
-The main use case I had in mind when building the extension was for implementations which have an intermediary web publication between the content and web publication levels intended for creating content manager pages and structure groups which are shared across a set of websites. Often times, these publications will have publishing enabled in order to allow the users to select the advanced setting "Also publish/unpublish to child publications" which allows them to publish items in a single publish to all web publications at once.
+The main use case I had in mind when building the extension was for implementations which have a web publication level between the content and web publication levels intended for creating content manager pages and structure groups which are shared across a set of child websites. Often times, these publications will have publishing enabled, even though there is typically no representative website for this publication, in order to allow the users to select the advanced setting "Also publish/unpublish to child publications" which allows them to publish items in a single publish to all web publications at once.
 
-<img src="https://user-images.githubusercontent.com/3137946/56857740-be2e6800-6960-11e9-9622-6419ee31d43c.png" width="500" />
-__Example blueprint showing the main use case for the extension.__
+<img src="https://user-images.githubusercontent.com/3137946/56857740-be2e6800-6960-11e9-9622-6419ee31d43c.png" width="400" />
 
 * In the sample blueprint, items in XPM may be edited directly in the English publication (500 EN).
 * It may be the case that items being edited in XPM are inherited from the 400 Web level, and should be published to all language sites when edited in XPM.
@@ -22,15 +21,15 @@ The extension is an asynchronous event-system extension which hooks into publish
 
 Configurations exist to also force setting some of the advanced publishing settings, including publishing the minor and in-workflow versions (-v0). See the configuration section below.
 
-## Config
+### Configurations
 The extension is configured with an accompanying DLL file, which is loaded as an EXE configuration - **Tridion.Events.config**.
 
-- **SourcePublications** - comma-separated list of publication titles for all publications which should initiate publish mirroring
-- **TargetPublications** - comma-separated list of publication titles for publications should publishing should be mirrored to
-- **PublishLoggingEnabled** - indicate whether or not all publish & unpublish transactions should be logged
-- **ForcePublishToChildPublications** - indicate whether the advanced setting should be set to force publishing to all child publications
-- **ForcePublishWorkflowVersion** - indicate whether the advanced setting should be set to publish in-workflow versions
-- **ForcePublishMinorVersion** - indicate whether the advanced setting should be set to publish minor versions
+- **SourcePublications**: comma-separated list of publication titles or TCM Ids for all publications which should initiate publish mirroring.
+- **TargetPublications**: comma-separated list of publication titles or TCM IDs for publications should publishing should be mirrored to.
+- **PublishLoggingEnabled**: indicate whether or not all publish & unpublish transactions should be logged.
+- **ForcePublishToChildPublications**: indicate whether the advanced setting should be set to force publishing to all child publications.
+- **ForcePublishWorkflowVersion**: indicate whether the advanced setting should be set to publish in-workflow versions.
+- **ForcePublishMinorVersion**: indicate whether the advanced setting should be set to publish minor versions.
 
 
 ```xml
@@ -60,10 +59,10 @@ The extension is configured with an accompanying DLL file, which is loaded as an
 </configuration>
 ```
 
-## Logging
+### Logging
 The logging library used is NLog (v4.6.2) which is configured in NLog.config. 
 
-## Building & Deploying
+### Building & Deploying
 The extension uses ILMerge (v3.0.29) to merge together the extension DLL which is built with dependencies. Logging can also be enabled to log all publish / unpublish transactions for debugging, which can prove useful for auditing purposes.
 
 The dependencies utilized include:
