@@ -4,7 +4,7 @@ SDL Web 8.5 Event-System extension to mirror publishing in a set of source publi
 
 _The extension has been tested in SDL Web 8.5 with both Topology Manager publishing, and legacy publishing using publishing targets._
 
-### Extension use cases
+## Extension use cases
 The main use case I had in mind when building the extension was for implementations which have a (web) publication in between the content and website publications intended for creating content manager pages and structure groups which are shared across a set of child websites. Often times, these publications will have publishing enabled, even though there is typically no representative website for this publication, in order to allow the users to select the advanced setting "Also publish/unpublish to child publications" which allows them to publish items in a single publish to all web publications at once.
 
 While this was the main use case, there are probably a ton of different scenarios where you would want to mirror all publishing between two publications.
@@ -28,7 +28,7 @@ The extension is an asynchronous event-system extension which hooks into publish
 
 Configurations exist to also force setting some of the advanced publishing settings, including publishing the minor and in-workflow versions (-v0). See the configuration section below.
 
-### Configurations
+## Configurations
 The extension is configured with an accompanying DLL file, which is loaded as an EXE configuration - **Tridion.Events.config**.
 
 - **SourcePublications**: comma-separated list of publication titles or TCM Ids for all publications which should initiate publish mirroring.
@@ -66,7 +66,7 @@ The extension is configured with an accompanying DLL file, which is loaded as an
 </configuration>
 ```
 
-### Building & Deploying
+## Building & Deploying
 The extension uses ILMerge (v3.0.29) to merge together the extension DLL which is built with dependencies. Logging can also be enabled to log all publish / unpublish transactions for debugging, which can prove useful for auditing purposes.
 
 The dependencies utilized include:
@@ -83,11 +83,12 @@ In order to build & deploy the extension:
 <add assemblyFileName="C:\Program Files (x86)\SDL Web\bin\Tridion.Events.PublishMirror.Merged.dll" />
 ```
 
-### Logging
+## Logging
 The logging library used is NLog (v4.6.2) which is configured in NLog.config. 
 
+You can read more about NLog over on their [https://github.com/NLog](GitHub page).
 
-### ILMerge
+## ILMerge
 ILMerge is configured in the .csproj file:
 
 ```xml
