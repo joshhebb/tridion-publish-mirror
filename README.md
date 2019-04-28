@@ -4,18 +4,19 @@ SDL Web 8.5 Event-System extension to mirror publishing in a set of source publi
 
 _The extension has been tested in SDL Web 8.5 with both Topology Manager publishing, and legacy publishing using publishing targets._
 
-### Use cases
-The main use case I had in mind when building the extension was for implementations which have a (web) publication between the content and website publications intended for creating content manager pages and structure groups which are shared across a set of child websites. Often times, these publications will have publishing enabled, even though there is typically no representative website for this publication, in order to allow the users to select the advanced setting "Also publish/unpublish to child publications" which allows them to publish items in a single publish to all web publications at once.
+### Extension use cases
+The main use case I had in mind when building the extension was for implementations which have a (web) publication in between the content and website publications intended for creating content manager pages and structure groups which are shared across a set of child websites. Often times, these publications will have publishing enabled, even though there is typically no representative website for this publication, in order to allow the users to select the advanced setting "Also publish/unpublish to child publications" which allows them to publish items in a single publish to all web publications at once.
 
 While this was the main use case, there are probably a ton of different scenarios where you would want to mirror all publishing between two publications.
 
+<p align="center">
 <img src="https://user-images.githubusercontent.com/3137946/56857740-be2e6800-6960-11e9-9622-6419ee31d43c.png" width="400" />
-
+</p>
 _Example blueprint showing the most common use case I had in mind for the extension (described in more detail below)._
 
-
-* In the sample blueprint, items in XPM may be edited directly in the English publication (500 EN).
-* It may be the case that items being edited in XPM are inherited from the 400 Web level, and should be published to all language sites when edited in XPM.
+The example blueprint above shows one of the primary use cases of the extension:
+* Items in XPM may be edited directly in the English publication (500 EN).
+* Iitems being edited in XPM are inherited from the 400 Web level, and should be published to all language sites when edited in XPM.
 * This extension can be used to mirror publish / unpublish transactions from the 500 EN publication to the 400 master web publication, forcing the advanced setting to publish to all child publications as well - thus mirroring the publish to all sibling publications. 
 
 ## How it works
@@ -64,9 +65,6 @@ The extension is configured with an accompanying DLL file, which is loaded as an
 </configuration>
 ```
 
-### Logging
-The logging library used is NLog (v4.6.2) which is configured in NLog.config. 
-
 ### Building & Deploying
 The extension uses ILMerge (v3.0.29) to merge together the extension DLL which is built with dependencies. Logging can also be enabled to log all publish / unpublish transactions for debugging, which can prove useful for auditing purposes.
 
@@ -83,6 +81,10 @@ In order to build & deploy the extension:
 ```xml
 <add assemblyFileName="C:\Program Files (x86)\SDL Web\bin\Tridion.Events.PublishMirror.Merged.dll" />
 ```
+
+### Logging
+The logging library used is NLog (v4.6.2) which is configured in NLog.config. 
+
 
 ### ILMerge
 ILMerge is configured in the .csproj file:
