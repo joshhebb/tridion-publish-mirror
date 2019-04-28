@@ -5,9 +5,10 @@ SDL Web 8.5 Event-System extension to mirror publishing in a set of source publi
 The extension has been tested in SDL Web 8.5 with both Topology Manager publishing, and legacy publishing using publishing targets. 
 
 ### Use cases
-There are a bunch of different use cases, but the main use case I had in mind when I built it was for implementations which have a "master" web level which other web publications inherit structure groups and common pages from. Often, users will publish from the "master web" puublication level with the advanced setting "Also publish/unpublish to child publications" to publish the item to all sites inheriting from the master web publication. 
+The main use case I had in mind when building the extension was for implementations which have an intermediary web publication between the content and web publication levels intended for creating content manager pages and structure groups which are shared across a set of websites. Often times, these publications will have publishing enabled in order to allow the users to select the advanced setting "Also publish/unpublish to child publications" which allows them to publish items in a single publish to all web publications at once.
 
 <img src="https://user-images.githubusercontent.com/3137946/56857740-be2e6800-6960-11e9-9622-6419ee31d43c.png" width="500" />
+__Example blueprint showing the main use case for the extension.__
 
 * In the sample blueprint, items in XPM may be edited directly in the English publication (500 EN).
 * It may be the case that items being edited in XPM are inherited from the 400 Web level, and should be published to all language sites when edited in XPM.
@@ -15,9 +16,9 @@ There are a bunch of different use cases, but the main use case I had in mind wh
 
 ## How it works
 The extension is an asynchronous event-system extension which hooks into publishing & unpublishing events (transaction committed event phase). 
-* When an item is published or published, the extension checks to see if the publish  was initiated in one of the source publications defined in configuration.
-* If the transaction should be mirrored in the target publications, the extension initiates a publish or unpublish in each of the target publications.
-* The publishing instructions are mirrored exactly.
+* When an item is published or published, the extension checks to see if the publish  was initiated in one of the source publications defined in the configuration file.
+* If the transaction should be mirrored in the target publications, the extension initiates a publish or unpublish in each of the target publications defined in the configuration file.
+* The publishing instructions are mirrored exactly, including the publish / unpublish instructions.
 
 Configurations exist to also force setting some of the advanced publishing settings, including publishing the minor and in-workflow versions (-v0). See the configuration section below.
 
@@ -63,7 +64,7 @@ The extension is configured with an accompanying DLL file, which is loaded as an
 The logging library used is NLog (v4.6.2) which is configured in NLog.config. 
 
 ## Building & Deploying
-The extension uses ILMerge (v3.0.29) to merge together the extension DLL which is built with dependencies.
+The extension uses ILMerge (v3.0.29) to merge together the extension DLL which is built with dependencies. Logging can also be enabled to log all publish / unpublish transactions for debugging, which can prove useful for auditing purposes.
 
 The dependencies utilized include:
 * NLog (v4.6.2)
