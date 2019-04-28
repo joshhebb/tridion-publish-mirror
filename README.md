@@ -7,8 +7,14 @@ The extension has been tested in SDL Web 8.5 with both Topology Manager publishi
 ### Use cases
 There are a bunch of different use cases, but the main use case I had in mind when I built it was for implementations which have a "master" web level which other web publications inherit structure groups and common pages from. Often, users will publish from the "master web" puublication level with the advanced setting "Also publish/unpublish to child publications" to publish the item to all sites inheriting from the master web publication. 
 
+<img src="https://user-images.githubusercontent.com/3137946/56857740-be2e6800-6960-11e9-9622-6419ee31d43c.png" width="500" />
+
+* In the sample blueprint, items in XPM may be edited directly in the English publication (500 EN).
+* It may be the case that items being edited in XPM are inherited from the 400 Web level, and should be published to all language sites when edited in XPM.
+* This extension can be used to mirror publish / unpublish transactions from the 500 EN publication to the 400 master web publication, forcing the advanced setting to publish to all child publications as well - thus mirroring the publish to all sibling publications. 
+
 ## How it works
-The extension is an event-system extension which hooks into publishing & unpublishing events. 
+The extension is an asynchronous event-system extension which hooks into publishing & unpublishing events (transaction committed event phase). 
 * When an item is published or published, the extension checks to see if the publish  was initiated in one of the source publications defined in configuration.
 * If the transaction should be mirrored in the target publications, the extension initiates a publish or unpublish in each of the target publications.
 * The publishing instructions are mirrored exactly.
