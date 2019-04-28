@@ -12,6 +12,7 @@ While this was the main use case, there are probably a ton of different scenario
 <p align="center">
 <img src="https://user-images.githubusercontent.com/3137946/56857740-be2e6800-6960-11e9-9622-6419ee31d43c.png" width="400" />
 </p>
+
 _Example blueprint showing the most common use case I had in mind for the extension (described in more detail below)._
 
 The example blueprint above shows one of the primary use cases of the extension:
