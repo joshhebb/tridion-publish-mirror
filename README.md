@@ -1,8 +1,11 @@
 ## Tridion Publish Mirror - Event System Extension
 
-SDL Web 8.5 Event-System extension to mirror publishing in a set of source publications which are defined in a configuration, to a set of target publications. This is particularly useful in combination with Experience Manager, where publishing initiated in XPM can be mirrored to other websites for consistent experiences across language sites. 
+SDL Web 8.5 Event-System extension to mirror publishing in a set of source publications which are defined in a configuration, to a set of target publications. This is particularly useful in combination with Experience Manager, where publishing initiated in XPM can be mirrored to other language websites for consistent user-experiences. 
 
 The extension has been tested in SDL Web 8.5 with both Topology Manager publishing, and legacy publishing using publishing targets. 
+
+### Use cases
+There are a bunch of different use cases, but the main use case I had in mind when I built it was for implementations which have a "master" web level which other web publications inherit structure groups and common pages from. Often, users will publish from the "master web" puublication level with the advanced setting "Also publish/unpublish to child publications" to publish the item to all sites inheriting from the master web publication. 
 
 ## How it works
 The extension is an event-system extension which hooks into publishing & unpublishing events. 
@@ -10,12 +13,18 @@ The extension is an event-system extension which hooks into publishing & unpubli
 * If the transaction should be mirrored in the target publications, the extension initiates a publish or unpublish in each of the target publications.
 * The publishing instructions are mirrored exactly.
 
+Configurations exist to also force setting some of the advanced publishing settings, including publishing the minor and in-workflow versions (-v0). See the configuration section below.
+
 ## Config
 The extension is configured with an accompanying DLL file, which is loaded as an EXE configuration - **Tridion.Events.config**.
 
 - **SourcePublications** - comma-separated list of publication titles for all publications which should initiate publish mirroring
 - **TargetPublications** - comma-separated list of publication titles for publications should publishing should be mirrored to
-- **OnlyMirrorIfPublishToChildrenSelected** - indicate whether or not publish mirroring should happen only if the setting 'Also publish/unpublish in child publications' is set to true
+- **PublishLoggingEnabled** - indicate whether or not all publish & unpublish transactions should be logged
+- **ForcePublishToChildPublications** - indicate whether the advanced setting should be set to force publishing to all child publications
+- **ForcePublishWorkflowVersion** - indicate whether the advanced setting should be set to publish in-workflow versions
+- **ForcePublishMinorVersion** - indicate whether the advanced setting should be set to publish minor versions
+
 
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
@@ -23,14 +32,23 @@ The extension is configured with an accompanying DLL file, which is loaded as an
   <appSettings>
   
     <!-- Define publications where publishing mirroring should be triggered -->
-    <add key="SourcePublications" value="600 Example DE-DE"/>
+    <add key="SourcePublications" value="tcm:0-7-1"/>
     
     <!-- Define the publications which publishing  -->
-    <add key="TargetPublications" value="400 Example Site,500 Example Site DE"/>
+    <add key="TargetPublications" value="400 Example Site"/>
 
-    <!-- If set to true, publish mirroring will only happen if the advanced setting 'Also Publish/Unpublish in Child Publications' is selected -->
-    <add key="OnlyMirrorIfPublishToChildrenSelected" value="false" />
-    
+    <!-- Enable logging of all publish transactions -->
+    <add key="PublishLoggingEnabled" value="true" />
+
+    <!-- Force the advanced publish / unpublish setting to publish to child publications -->
+    <add key="ForcePublishToChildPublications" value="true" />
+
+    <!-- Force the advanced publish setting to publish in-workflow versions -->
+    <add key="ForcePublishWorkflowVersion" value="false" />
+
+    <!-- Force the advanced publish setting to publish minor versions -->
+    <add key="ForcePublishMinorVersion" value="false" />
+
   </appSettings>
 </configuration>
 ```
@@ -72,3 +90,5 @@ ILMerge is configured in the .csproj file:
   <Exec Command="$(Merger) /out:&quot;$(OutputAssembly)&quot; @(MergeAssemblies->'&quot;%(FullPath)&quot;', ' ')" />
 </Target>
 ```
+
+Please log any defects on the repo issues page.
