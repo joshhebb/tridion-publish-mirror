@@ -10,7 +10,9 @@ The main use case I had in mind when building the extension was for implementati
 While this was the main use case, there are probably a ton of different scenarios where you would want to mirror all publishing between two publications.
 
 <img src="https://user-images.githubusercontent.com/3137946/56857740-be2e6800-6960-11e9-9622-6419ee31d43c.png" width="400" />
+
 _Example blueprint showing the most common use case I had in mind for the extension (described in more detail below)._
+
 
 * In the sample blueprint, items in XPM may be edited directly in the English publication (500 EN).
 * It may be the case that items being edited in XPM are inherited from the 400 Web level, and should be published to all language sites when edited in XPM.
