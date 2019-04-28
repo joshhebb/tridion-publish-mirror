@@ -22,6 +22,11 @@ namespace Tridion.Events
         public static string[] TARGET_PUBS = Configuration.GetAppSettings("TargetPublications");
 
         /// <summary>
+        /// Enable or disable publish logging of all publish transactions for debugging
+        /// </summary>
+        public static bool PUBLISH_LOGGING_ENABLED = Configuration.GetBooleanAppSetting("PublishLoggingEnabled");
+
+        /// <summary>
         /// Force publishing / unpublishing to child publication advanced setting set in config.
         /// </summary>
         public static bool FORCE_PUBLISH_CHILD_PUBS = Configuration.GetBooleanAppSetting("ForcePublishToChildPublications");

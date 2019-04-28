@@ -25,7 +25,6 @@ namespace Tridion.Events
 
         public void Subscribe()
         {
-            logger.Debug("Subscribing to publish & unpublish events..");
             EventSystem.SubscribeAsync<RepositoryLocalObject, PublishOrUnPublishEventArgs>(PublishEvent, EventPhases.TransactionCommitted);
         }
 
@@ -40,18 +39,29 @@ namespace Tridion.Events
         {
             var publication = publishedItem.ContextRepository as Publication;
 
+            if(Settings.PUBLISH_LOGGING_ENABLED)
+            {
+                var publishStatus = args is PublishEventArgs ? "Publish" : "Unpublish";
+                var publishEvent = args is PublishEventArgs ? args as PublishEventArgs : null;
+                var unpublishEvent = args is UnPublishEventArgs ? args as UnPublishEventArgs : null;
+
+                var creator = publishEvent != null ? publishEvent.PublishTransactions?.FirstOrDefault()?.Creator :
+                    unpublishEvent?.PublishTransactions?.FirstOrDefault()?.Creator;
+
+                logger.Info(
+                    $"{publishStatus} event " +
+                    $"[initiated by]: {creator.Title} ({creator.Id}) -- " +
+                    $"[publishing targets]: {args.Targets.Select(t => $"{t.Title} ({t.Id})")?.PrintList()} -- " +
+                    $"[original publish item]: {publishedItem.Id} ({publishedItem.Title}) -- " +
+                    $"[all {publishStatus} items (also published)]: {args.Items.Select(i => $"{i.Title} ({i.Id})")?.PrintList()}."
+                );
+            }
+
             // Make sure the publication is in the list of publications where publishing should be mirrored
-            if (Settings.SOURCE_PUBS.Any(p => p.Equals(publication?.Title)))
+            if (Settings.SOURCE_PUBS.Any(p => p.Equals(publication?.Title) || p.Equals(publication?.Id)))
             {
                 // Get the instruction & figure out if its a publish or an unpublish
                 var publishUnpublishInstruction = TridionUtil.GetPublishOrUnpublishInstruction(args);
-
-                // Only run the action if the user selected to include child pubs, and the config is enabled
-                if (publishUnpublishInstruction.ResolveInstruction.IncludeChildPublications != true)
-                {
-                    logger.Debug("Transaction didn't specify that we should only publish if child publications setting is selected. Exitting.");
-                    return;
-                }
 
                 // Get the publications for which publishing should be mirrored
                 var mirrorPublications = TridionUtil.GetPublications(Settings.TARGET_PUBS, publishedItem.Session);
@@ -92,7 +102,7 @@ namespace Tridion.Events
                                 publishInstruction.ResolveInstruction.IncludeWorkflow = true;
                             }
 
-                            logger.Info($"Publishing items '{publishedItemIds}' -- to publications {publicationTitles} -- to targets {targetTypes.Select(t => t.Title).PrintList()}.");
+                            logger.Info($"Mirroring publishing items '{publishedItemIds}' -- to publications {publicationTitles} -- to targets {targetTypes.Select(t => t.Title).PrintList()}.");
                             PublishEngine.Publish(mirrorItems, publishInstruction, targetTypes);
                         }
                         else if (args is UnPublishEventArgs)
@@ -104,7 +114,7 @@ namespace Tridion.Events
                                 unpublishInstruction.ResolveInstruction.IncludeChildPublications = true;
                             }
 
-                            logger.Info($"Unpublishing items '{publishedItemIds}' -- to publications {publicationTitles} -- to targets {publishingTargetIds}.");
+                            logger.Info($"Mirroring unpublishing items '{publishedItemIds}' -- to publications {publicationTitles} -- to targets {publishingTargetIds}.");
                             PublishEngine.UnPublish(mirrorItems, unpublishInstruction, targetTypes);
                         }
                     }

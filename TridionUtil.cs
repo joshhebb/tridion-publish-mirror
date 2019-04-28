@@ -90,10 +90,8 @@ namespace Tridion.Events
                 // Get the list of publications and find them by title
                 foreach (XmlNode pubXml in session.GetList(filter))
                 {
-                    logger.Debug($"Pub XML {pubXml.OuterXml} -- {pubXml.Attributes[Settings.Constants.CM_XML_ID]?.Value}");
-
                     // search for the specified publications, and for each query the publication data and add it to the return list
-                    publicationIdentifiers?.Where(p => p.Equals(pubXml.Attributes[Settings.Constants.CM_XML_TITLE].Value))?
+                    publicationIdentifiers?.Where(p => p.Equals(pubXml.Attributes[Settings.Constants.CM_XML_TITLE].Value) || p.Equals(pubXml.Attributes[Settings.Constants.CM_XML_ID].Value))?
                         .ToList().ForEach(p =>
                         {
                             publications.Add(session.GetObject(pubXml.Attributes[Settings.Constants.CM_XML_ID].Value) as Publication);
@@ -105,7 +103,6 @@ namespace Tridion.Events
                 logger.Error($"Error getting publication data for pubs to mirror : {ex.Message} {ex.ToString()}");
             }
 
-            logger.Debug($"Got back {publications?.Count()} publications.");
             return publications;
         }
     }
