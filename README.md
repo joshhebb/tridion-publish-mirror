@@ -1,24 +1,8 @@
 ## Tridion Publish Mirror - Event System Extension
 
-SDL Web 8.5 Event-System extension to mirror publishing in a set of source publications which are defined in a configuration, to a set of target publications. This is particularly useful in combination with Experience Manager, where publishing initiated in XPM can be mirrored to other language websites for consistent user-experiences. 
+SDL Web 8.5 Event System extension to mirror publishing and unpublishing jobs sent in a set of source publications to a set of target publications. This is particularly useful in combination with Experience Manager, where publishing initiated in XPM can be mirrored to other language websites for consistent user-experiences - but there are probably a bunch of other use cases.
 
 _The extension has been tested in SDL Web 8.5 with both Topology Manager publishing, and legacy publishing using publishing targets._
-
-## Extension use cases
-The main use case I had in mind when building the extension was for implementations which have a (web) publication in between the content and website publications intended for creating content manager pages and structure groups which are shared across a set of child websites. Often times, these publications will have publishing enabled, even though there is typically no representative website for this publication, in order to allow the users to select the advanced setting "Also publish/unpublish to child publications" which allows them to publish items in a single publish to all web publications at once.
-
-While this was the main use case, there are probably a ton of different scenarios where you would want to mirror all publishing between two publications.
-
-<p align="center">
-<img src="https://user-images.githubusercontent.com/3137946/56857740-be2e6800-6960-11e9-9622-6419ee31d43c.png" width="400" />
-</p>
-
-_Example blueprint showing the most common use case I had in mind for the extension (described in more detail below)._
-
-The example blueprint above shows one of the primary use cases of the extension:
-* Items in XPM may be edited directly in the English publication (500 EN).
-* Iitems being edited in XPM are inherited from the 400 Web level, and should be published to all language sites when edited in XPM.
-* This extension can be used to mirror publish / unpublish transactions from the 500 EN publication to the 400 master web publication, forcing the advanced setting to publish to all child publications as well - thus mirroring the publish to all sibling publications. 
 
 ## How it works
 The extension is an asynchronous event-system extension which hooks into publishing & unpublishing events (transaction committed event phase). 
