@@ -1,0 +1,4 @@
+Publish.Mirror/*/bin
+Publish.Mirror/*/obj
+Publish.Mirror/*/Build
+.vs/

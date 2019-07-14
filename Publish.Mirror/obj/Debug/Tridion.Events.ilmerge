@@ -1,0 +1,12 @@
+Tridion.Events.dll
+Tridion.Common.dll
+Tridion.ContentManager.Common.dll
+Tridion.ContentManager.dll
+Tridion.ContentManager.Publishing.dll
+Tridion.ContentManager.Templating.dll
+Tridion.Logging.dll
+NLog.dll
+System.Configuration.ConfigurationManager.dll
+System.Security.AccessControl.dll
+System.Security.Permissions.dll
+System.Security.Principal.Windows.dll
