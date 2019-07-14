@@ -69,17 +69,27 @@ namespace Tridion.Events
                 // Get the publications for which publishing should be mirrored
                 var mirrorPublications = TridionUtil.GetPublications(Settings.TARGET_PUBS, publishedItem.Session);
 
+                if(mirrorPublications == null || mirrorPublications.Count < 1)
+                {
+                    logger.Debug("No mirror publications found."); return;
+                }
+
                 if (Settings.PUBLISH_LOGGING_ENABLED) logger.Debug($"Found the list of mirror publications : {mirrorPublications.Select(p => p.Title + ", ")?.PrintList()} .");
 
                 // Get the item which needs to be published in the mirrored publication
                 var mirrorItems = TridionUtil.GetItemsInPublications(publishedItem, mirrorPublications?.Select(p => p.Id)?.ToList(), publishedItem.Session);
 
-                if (Settings.PUBLISH_LOGGING_ENABLED) logger.Debug($"Mirroring {mirrorItems?.Count} publish items : {mirrorItems?.Select(i => i.Id + ", ")?.PrintList()}.");
+                if (mirrorItems == null || mirrorItems.Count < 1)
+                {
+                    logger.Debug("No mirror items found."); return;
+                }
+
+                if (Settings.PUBLISH_LOGGING_ENABLED) logger.Debug($"Mirroring {mirrorItems.Count} publish items : {mirrorItems.Select(i => i.Id + ", ")?.PrintList()}.");
                 
                 try
                 {
                     // Publish the items to be mirrored in the mirrored publications
-                    if (args.Targets.Count() > 0 && mirrorItems?.Count() > 0 && mirrorPublications?.Count() > 0)
+                    if (args.Targets.Count() > 0 && mirrorItems.Count() > 0 && mirrorPublications.Count() > 0)
                     {
                         var publishedItemIds = mirrorItems.Select(p => p.Id.ToString())?.PrintList(); 
                         var publicationTitles = mirrorPublications.Select(p => p.Title)?.PrintList();

@@ -55,8 +55,9 @@ namespace Tridion.Events
             // For each of the publications we should mirror publishing to, create the ID for the item in that publication and query it.
             return publicationIds?.Select(p =>
             {
-                var tcmUri = new TcmUri(item.Id.ItemId, item.Id.ItemType, p.ItemId);
                 IdentifiableObject result = null;
+                
+                var tcmUri = new TcmUri(item.Id.ItemId, item.Id.ItemType, p.ItemId);
 
                 try
                 {
@@ -71,7 +72,7 @@ namespace Tridion.Events
                 }
                 
                 return result;
-            })?.ToList();
+            })?.Where(i => i != null).ToList();
         }
 
         /// <summary>

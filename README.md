@@ -18,6 +18,7 @@ The extension is configured with an accompanying DLL file, which is loaded as an
 - **SourcePublications**: comma-separated list of publication titles or TCM Ids for all publications which should initiate publish mirroring.
 - **TargetPublications**: comma-separated list of publication titles or TCM IDs for publications should publishing should be mirrored to.
 - **PublishLoggingEnabled**: indicate whether or not all publish & unpublish transactions should be logged.
+- **MirrorIfPropogateSelected**: indicate whether or not mirroring should only be enabled if the advanced setting "publish / unpublish to child publications" is checked.
 - **ForcePublishToChildPublications**: indicate whether the advanced setting should be set to force publishing to all child publications.
 - **ForcePublishWorkflowVersion**: indicate whether the advanced setting should be set to publish in-workflow versions.
 - **ForcePublishMinorVersion**: indicate whether the advanced setting should be set to publish minor versions.
@@ -36,6 +37,9 @@ The extension is configured with an accompanying DLL file, which is loaded as an
 
     <!-- Enable logging of all publish transactions -->
     <add key="PublishLoggingEnabled" value="true" />
+
+    <!-- Enable mirroring only if propogate children is selected -->
+    <add key="MirrorIfPropogateSelected" value="true" />
 
     <!-- Force the advanced publish / unpublish setting to publish to child publications -->
     <add key="ForcePublishToChildPublications" value="true" />
@@ -73,7 +77,7 @@ The logging library used is NLog (v4.6.2) which is configured in NLog.config.
 You can read more about NLog over on their [https://github.com/NLog](GitHub page).
 
 ## ILMerge
-ILMerge is configured in the .csproj file:
+ILMerge is used for merging DLLs so we don't have to copy and paste them as a group. It is configured in the .csproj file:
 
 ```xml
 <Target Name="AfterBuild">
